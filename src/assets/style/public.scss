@@ -1,0 +1,70 @@
+.headerBox {
+  width: 1920px;
+  height: calc(80vh / 10.8);
+  background: #0E2F5D;
+  display: flex;
+  align-items: center;
+  color: #FFFFFF;
+
+  .logoClass {
+    width: 44px;
+    height: 44px;
+    margin-left: 36px;
+  }
+
+  .titleClass {
+    font-size: 28px;
+    font-family: 'HuXiaoBo';
+    line-height: 29px;
+    letter-spacing: 2px;
+    margin-left: 28px;
+  }
+
+  .subTitleClass {
+    font-size: 24px;
+    font-weight: 600;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 81%;
+
+    .dotClass {
+      width: 8px;
+      height: 8px;
+      background: #FFFFFF;
+      display: inline-block;
+      border-radius: 50%;
+      margin: 0px 10px;
+    }
+  }
+
+  .infoBox {
+    display: flex;
+    align-items: center;
+    margin-right: 30px;
+
+    .el-dropdown {
+      margin-left: 20px;
+
+    }
+  }
+}
+
+.loginLogoClass {
+  font-size: 28px;
+  font-family: 'HuXiaoBo';
+  font-weight: normal;
+  color: #FFFFFF;
+  letter-spacing: 2px;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  margin-bottom: 50px;
+
+  img {
+    width: 74px;
+    height: 74px;
+    margin-bottom: 13px;
+  }
+}
+

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>黄</title>
+    <g id="追赃查控" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="追脏查控" transform="translate(-1142.000000, -532.000000)">
+            <g id="列表" transform="translate(348.000000, 330.000000)">
+                <g id="矩形备份-3" transform="translate(0.000000, 196.000000)">
+                    <g id="红色预警" transform="translate(794.000000, 4.000000)">
+                        <g id="黄" transform="translate(0.000000, 2.000000)">
+                            <polygon id="路径-7" fill="#FFEABF" points="8 0 0 16 16 16"></polygon>
+                            <path d="M7.14,6 L7.49,11.126 L8.68,11.126 L9.03,6 L7.14,6 Z M8.078,11.882 C7.77,11.882 7.518,11.98 7.322,12.176 C7.098,12.372 7,12.624 7,12.932 C7,13.24 7.098,13.492 7.322,13.688 C7.518,13.884 7.77,13.996 8.078,13.996 C8.386,13.996 8.638,13.898 8.862,13.702 C9.058,13.506 9.17,13.24 9.17,12.932 C9.17,12.624 9.058,12.372 8.862,12.176 C8.652,11.98 8.386,11.882 8.078,11.882 Z" id="形状" fill="#EFA811" fill-rule="nonzero"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
