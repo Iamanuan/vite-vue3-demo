@@ -3,20 +3,13 @@
   <div class="workbench-container">
     <Header :isShow="true" />
     <div class="contentBox">
-      <div class="statisticsBox"></div>
-      <div class="caseBox">
-        <div class="titleClass">案件管理</div>
-      </div>
-      <div class="rightBox">
-        <div class="cardItemBox suspectBox">
-          <div class="titleClass">
-            嫌疑人进度提醒<span @click="router.push('/manage/suspect')"
-              >全部</span
-            >
+      <div class="statisticsBox">
+        <div class="itemBox" v-for="(item, index) in statisticsList">
+          <img src="@/assets/images/statisticsIcon1.png" alt="" />
+          <div class="infoClass">
+            <span class="labelClass">{{ item.label }}</span>
+            <span class="valueClass">{{ item.value }}</span>
           </div>
-        </div>
-        <div class="cardItemBox controlBox">
-          <div class="titleClass">查封冻结提醒</div>
         </div>
       </div>
     </div>
@@ -24,11 +17,29 @@
 </template>
 
 <script setup lang="ts">
+import { queryCaseSummary } from "@/api/workbench";
 import Header from "@/layout/Header.vue";
+import { onMounted, ref } from "vue";
+import { StatisticsListInt } from "../type/workbench";
 
-import { useRouter } from "vue-router";
-
-const router = useRouter();
+const statisticsList = ref<StatisticsListInt[]>([
+  { value: 0, label: "案件数" },
+  { value: 0, label: "嫌疑人数" },
+  { value: 0, label: "已打标笔录数" },
+  { value: 0, label: "证据量" },
+  { value: 0, label: " 冻结查封数量" },
+]);
+const queryCaseSummaryData = async () => {
+  const { data } = await queryCaseSummary();
+  statisticsList.value[0].value = data.caseQuantity;
+  statisticsList.value[1].value = data.suspectQuantity;
+  statisticsList.value[2].value = data.recordQuantity;
+  statisticsList.value[3].value = data.evidenceQuantity;
+  statisticsList.value[4].value = data.checkQuantity;
+};
+onMounted(() => {
+  queryCaseSummaryData();
+});
 </script>
 
 <style lang="scss" scoped>
@@ -46,6 +57,47 @@ const router = useRouter();
       background: #ffffff;
       border-radius: 8px;
       margin-bottom: calc(30vh / 10.8);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      .itemBox {
+        width: 216px;
+        height: 106px;
+        position: relative;
+        img {
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          top: 0px;
+          left: 0px;
+        }
+        .infoClass {
+          position: absolute;
+          display: flex;
+          flex-flow: column;
+          align-items: center;
+          width: 100%;
+          height: 100%;
+          justify-content: center;
+          padding-right: 20px;
+          padding-top: 20px;
+          span {
+            display: inline-block;
+            width: 100%;
+            text-align: end;
+          }
+          .labelClass {
+            font-size: 14px;
+            font-weight: 400;
+            color: #000c49;
+          }
+          .valueClass {
+            font-size: 34px;
+            font-weight: normal;
+            color: #132d6f;
+          }
+        }
+      }
     }
     .caseBox {
       width: 1145px;
@@ -68,6 +120,90 @@ const router = useRouter();
         background: #ffffff;
         border-radius: 8px;
         padding: 10px 20px;
+        .listBox {
+          height: 91%;
+          overflow: auto;
+          .itemClass {
+            border-bottom: 1px solid #d2daee;
+            display: flex;
+            padding: 15px 0px;
+            align-items: flex-end;
+            .signClass {
+              width: 60px;
+              height: 60px;
+              border-radius: 50px;
+              line-height: 20px;
+              text-align: center;
+              font-size: 14px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              position: relative;
+              span {
+                display: inline-block;
+                word-break: break-all;
+                width: 30px;
+              }
+              &.red {
+                background: rgba(249, 19, 19, 0.1);
+                color: #f91313;
+              }
+              &.yellow {
+                background: rgba(249, 144, 19, 0.1);
+                color: #f99013;
+              }
+              &.green {
+                background: #2b9d181a;
+                color: #2b9d18;
+              }
+              .dot {
+                width: 10px;
+                height: 10px;
+                display: inline-block;
+                border-radius: 50%;
+                position: absolute;
+                top: 5px;
+                right: 5px;
+                &.red {
+                  background: #f91313;
+                }
+                &.yellow {
+                  background: #f99013;
+                }
+                &.green {
+                  background: #2b9d18;
+                }
+              }
+            }
+            .infoClas {
+              width: 80%;
+              display: flex;
+              flex-flow: column;
+              padding: 0px 15px;
+              justify-content: space-evenly;
+              height: 60px;
+              .titleClass {
+                width: 100%;
+                font-size: 15px;
+                font-weight: 400;
+                color: #333333;
+                display: inline-block;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+              }
+              .dateClass {
+                font-size: 14px;
+                font-weight: 400;
+                color: #919191;
+              }
+            }
+            .el-button {
+              width: 92px;
+              height: 30px;
+            }
+          }
+        }
       }
     }
 
@@ -75,6 +211,86 @@ const router = useRouter();
       font-size: 24px;
       font-weight: 600;
       color: #000c49;
+      display: flex;
+      justify-content: space-between;
+      height: 35px;
+      line-height: 35px;
+      span {
+        font-size: 14px;
+        font-weight: 600;
+        color: #0065e1;
+        cursor: pointer;
+      }
+      .statClass {
+        height: 30px;
+        line-height: 30px;
+        .redClass {
+          width: 90px;
+          height: 30px;
+          background: rgba(249, 19, 19, 0.1);
+          border-radius: 4px;
+          margin-right: 35px;
+          color: #f91313;
+          display: inline-block;
+          font-size: 14px;
+          font-weight: 400;
+          text-align: center;
+          position: relative;
+          span {
+            width: 30px;
+            height: 30px;
+            display: inline-block;
+            background: #f91717;
+            border-radius: 50%;
+            color: #fff;
+            position: absolute;
+            right: -15px;
+          }
+        }
+        .yellowClass {
+          width: 90px;
+          height: 30px;
+          background: rgba(249, 144, 19, 0.1);
+          border-radius: 4px;
+          margin-right: 20px;
+          color: #f99013;
+          display: inline-block;
+          font-size: 14px;
+          font-weight: 400;
+          text-align: center;
+          position: relative;
+          span {
+            width: 30px;
+            height: 30px;
+            display: inline-block;
+            background: #f99013;
+            border-radius: 50%;
+            color: #fff;
+            position: absolute;
+            right: -15px;
+          }
+        }
+      }
+    }
+  }
+  .dataList-wrap {
+    padding: 15px 0px 0px 0px;
+    height: calc(100% - 22px);
+    .search-box {
+      .el-form-item {
+        &:first-child {
+          width: 160px;
+        }
+        &:last-child {
+          width: 211px;
+        }
+        :deep(.el-form-item__content) {
+          width: 100%;
+        }
+      }
+    }
+    .table-box.el-table {
+      height: 50vh;
     }
   }
 }

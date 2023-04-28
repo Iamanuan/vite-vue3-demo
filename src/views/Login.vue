@@ -34,10 +34,12 @@
 import { defineComponent, reactive, toRefs, ref } from "vue";
 import { LoginData } from "../type/login";
 import { FormInstance, FormRules } from "element-plus";
-import { login } from "../api/api";
+import { login } from "../api/public";
 import { useRouter } from "vue-router";
+import userStore from "../stores/user";
 export default defineComponent({
   setup() {
+    const store = userStore();
     const data = reactive(new LoginData());
     const loginFormRules = reactive<FormRules>({
       policeNumber: [
@@ -53,7 +55,10 @@ export default defineComponent({
       await formEl.validate((valid: any) => {
         if (valid) {
           login(data.loginForm).then((res) => {
+            console.warn(res);
+            
             localStorage.setItem("token", res.data.token);
+            store.policeNumber = res.data.policeNumber;
             router.push("/workbench");
           });
         } else {

@@ -29,7 +29,6 @@ service.interceptors.request.use((config) => {
 
 // 响应拦截
 service.interceptors.response.use((res) => {
-
   if (res.data.code !== 1000) {
     ElMessage.error(res.data.message)
     // return Promise.reject(res.data)

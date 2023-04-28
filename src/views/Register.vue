@@ -38,7 +38,7 @@ import { reactive, ref } from "vue";
 import { RegisterData } from "../type/register";
 import { ElMessage, FormInstance, FormRules } from "element-plus";
 import { useRouter } from "vue-router";
-import { register } from "@/api/api";
+import { register } from "@/api/public";
 const data = reactive(new RegisterData());
 const registerFormRules = reactive<FormRules>({
   policeNumber: [{ required: true, message: "请输入警号", trigger: "blur" }],
