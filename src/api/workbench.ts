@@ -7,3 +7,12 @@ export function queryCaseSummary() {
     method: "post",
   });
 }
+
+// 查询案件列表
+export function queryCaseList(data) {
+  return service({
+    url: "/liteCase/queryCaseList",
+    method: "post",
+    data,
+  });
+}

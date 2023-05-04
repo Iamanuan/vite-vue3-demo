@@ -8,7 +8,9 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
 import 'element-plus/dist/index.css'
 import '@/assets/style/global.scss'
+
 const app = createApp(App)
+
 const pinia = createPinia().use(piniaPluginPersistedstate)
 
 app.use(ElementPlus, { size: "large" }).use(router).use(pinia).mount('#app')

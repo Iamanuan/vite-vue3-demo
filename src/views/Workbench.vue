@@ -4,7 +4,11 @@
     <Header :isShow="true" />
     <div class="contentBox">
       <div class="statisticsBox">
-        <div class="itemBox" v-for="(item, index) in statisticsList">
+        <div
+          class="itemBox"
+          v-for="(item, index) in statisticsList"
+          :key="index"
+        >
           <img src="@/assets/images/statisticsIcon1.png" alt="" />
           <div class="infoClass">
             <span class="labelClass">{{ item.label }}</span>
@@ -12,16 +16,68 @@
           </div>
         </div>
       </div>
+      <div class="caseBox">
+        <div class="titleClass">案件管理</div>
+        <div class="dataList-wrap">
+          <el-form :model="searchForm" class="search-box" ref="searchFormRef">
+            <el-form-item label="案件编号">
+              <el-input
+                v-model="searchForm.caseNumber"
+                placeholder="请输入案件编号"
+                clearable
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="案件名称">
+              <el-input
+                v-model="searchForm.caseName"
+                placeholder="请输入案件名称"
+                clearable
+              ></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="handleSearch">查 询</el-button>
+              <el-button type="default" @click="handleReset">重 置</el-button>
+            </el-form-item>
+          </el-form>
+          <el-table :data="tableData" class="table-box">
+            <el-table-column
+              prop="caseNumber"
+              label="案件编号"
+              min-width="150"
+              header-align="center"
+              align="center"
+              show-overflow-tooltip
+            >
+            </el-table-column>
+            <el-table-column
+              prop="caseName"
+              label="案件名称"
+              min-width="60"
+              header-align="center"
+              align="center"
+            >
+            </el-table-column>
+            <el-table-column
+              min-width="135"
+              label="操作"
+              header-align="center"
+              align="center"
+            >
+            </el-table-column>
+          </el-table>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { queryCaseSummary } from "@/api/workbench";
+import { queryCaseSummary, queryCaseList } from "@/api/workbench";
 import Header from "@/layout/Header.vue";
 import { onMounted, ref } from "vue";
-import { StatisticsListInt } from "../type/workbench";
+import { StatisticsListInt, SearchFormInt } from "../type/workbench";
 
+// ts数组类型的运用
 const statisticsList = ref<StatisticsListInt[]>([
   { value: 0, label: "案件数" },
   { value: 0, label: "嫌疑人数" },
@@ -29,6 +85,14 @@ const statisticsList = ref<StatisticsListInt[]>([
   { value: 0, label: "证据量" },
   { value: 0, label: " 冻结查封数量" },
 ]);
+let tableData: any = ref([]);
+
+// ts对象类型的运用
+let searchForm = ref<SearchFormInt>({
+  caseNumber: "",
+  caseName: "",
+});
+
 const queryCaseSummaryData = async () => {
   const { data } = await queryCaseSummary();
   statisticsList.value[0].value = data.caseQuantity;
@@ -37,8 +101,28 @@ const queryCaseSummaryData = async () => {
   statisticsList.value[3].value = data.evidenceQuantity;
   statisticsList.value[4].value = data.checkQuantity;
 };
+
+const queryCaseListData = async () => {
+  const { data } = await queryCaseList({
+    ...{ pageNumber: 0, pageSize: 10 },
+    ...searchForm.value,
+  });
+  tableData.value = data.content;
+};
+
+const handleSearch = () => {
+  queryCaseListData();
+};
+const handleReset = () => {
+  searchForm.value = {
+    caseNumber: "",
+    caseName: "",
+  };
+  handleSearch();
+};
 onMounted(() => {
   queryCaseSummaryData();
+  queryCaseListData();
 });
 </script>
 
@@ -278,12 +362,6 @@ onMounted(() => {
     height: calc(100% - 22px);
     .search-box {
       .el-form-item {
-        &:first-child {
-          width: 160px;
-        }
-        &:last-child {
-          width: 211px;
-        }
         :deep(.el-form-item__content) {
           width: 100%;
         }

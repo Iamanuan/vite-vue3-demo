@@ -41,6 +41,8 @@ export default defineComponent({
   setup() {
     const store = userStore();
     const data = reactive(new LoginData());
+    console.warn(data);
+
     const loginFormRules = reactive<FormRules>({
       policeNumber: [
         { required: true, message: "请输入警号", trigger: "blur" },
@@ -55,8 +57,6 @@ export default defineComponent({
       await formEl.validate((valid: any) => {
         if (valid) {
           login(data.loginForm).then((res) => {
-            console.warn(res);
-            
             localStorage.setItem("token", res.data.token);
             store.policeNumber = res.data.policeNumber;
             router.push("/workbench");
